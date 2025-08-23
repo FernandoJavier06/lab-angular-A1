@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { RouterOutlet } from '@angular/router';
-import { RouterLink } from "../../../../../node_modules/@angular/router/index";
+import { RouterLink } from '@angular/router';
 import { Option } from '../../interfaces/options';
 
 @Component({
@@ -46,6 +46,6 @@ export default class NavigationComponent implements OnInit {
   
     public readonly routes:Option[] = [
       { route: '/home', icon: 'home', name: 'Home' },
-      { route: '/empleados', icon: 'person', name: 'Empleados' },
+      { route: '/person', icon: 'person', name: 'Empleados' },
     ]
 }
