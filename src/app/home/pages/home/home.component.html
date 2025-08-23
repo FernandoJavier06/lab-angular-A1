@@ -1,0 +1,4 @@
+<app-home-header [inputDato]="dato" (outputContador)="eventContador($event)"/>
+<app-home-body (outputData)="eventMessage($event)" [inputContador]="contador"/>
+
+<p className="mensaje">{{ contenido }}</p>
