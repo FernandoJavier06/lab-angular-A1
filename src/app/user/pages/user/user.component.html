@@ -1,1 +1,9 @@
-<p>user works!</p>
+@for (item of this.data; track $index) {
+<mat-card appearance="outlined">
+  <mat-card-content>
+    {{ item.name }}
+  </mat-card-content>
+</mat-card>
+}
+
+
