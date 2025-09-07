@@ -1,39 +1,72 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import {MatCardModule} from '@angular/material/card';
 import { Object } from '../../interfaces/object';
-
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [MatCardModule],
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    CommonModule,
+  ],
   templateUrl: './user.component.html',
-  styleUrl: './user.component.scss'
+  styleUrl: './user.component.scss',
 })
-export default class UserComponent implements OnInit {
-  private readonly activeRoute = inject(ActivatedRoute);
+export default class UserComponent implements OnInit, AfterViewInit {
   private readonly userService = inject(UserService);
 
-  public data: Object[] = [];
-  constructor() {}
+  displayedColumns: string[] = ['id', 'name', 'color', 'capacity'];
+  dataSource: MatTableDataSource<Object>;
 
-  ngOnInit(): void {
-    /*console.log(this.activeRoute.snapshot.queryParamMap.get('id'));  
-    console.log(this.activeRoute.snapshot.queryParamMap.get('type'));
-    console.log(this.activeRoute.snapshot.queryParamMap.get('page'));
-    */
-   this.getUsers();
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  constructor() {
+    this.dataSource = new MatTableDataSource<Object>([]);
   }
 
-  getUsers(){
+  ngOnInit(): void {
+    this.getUsers();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  getUsers() {
     this.userService.get().subscribe({
       next: (res) => {
-        this.data = [...res];
+        this.dataSource.data = res;
       },
       error: () => {},
       complete: () => {},
     });
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 }

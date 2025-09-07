@@ -47,5 +47,6 @@ export default class NavigationComponent implements OnInit {
     public readonly routes:Option[] = [
       { route: '/home', icon: 'home', name: 'Home' },
       { route: '/person', icon: 'person', name: 'Empleados' },
+      {route: '/phones', icon: 'phone_enabled', name: 'Phone' },
     ]
 }

@@ -16,6 +16,11 @@ export const routes: Routes = [
     loadComponent: () => import('./user/pages/user/user.component'),
 },
 {
+    path: 'phones',
+    title: 'App | phones',
+    loadComponent: () => import('./phone/pages/phones/phones.component'),
+},
+{
     path: '*',
     redirectTo: 'home',
 }];
